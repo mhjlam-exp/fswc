@@ -1,4 +1,4 @@
-#define SDL_MAIN_HANDLED 
+#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <math.h>
@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include <windows.h>
 
-/* if (0) = TRUE */
-/* if (!0) = FALSE */
+// if (0) = TRUE
+// if (!0) = FALSE
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
@@ -53,23 +53,23 @@ char* capture(int w, int h)
     HANDLE hDIB = GlobalAlloc(GHND,dwBmpSize);
     char *lpbitmap = (char*)GlobalLock(hDIB);
 
-    // Gets the "bits" from the bitmap and copies them into a buffer  which is pointed to by lpbitmap.
+    // copy bits from the bitmap into a buffer which is pointed to by lpbitmap
     GetDIBits(hdcScreen, hbmScreen, 0, (UINT)bmpScreen.bmHeight, lpbitmap, (BITMAPINFO *)&bi, DIB_RGB_COLORS);
 
     // create file for screen capture
     HANDLE file = CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    
+
     // bitmap file header
     BITMAPFILEHEADER bmfHeader;
     bmfHeader.bfOffBits = (DWORD)sizeof(BITMAPFILEHEADER) + (DWORD)sizeof(BITMAPINFOHEADER);
     bmfHeader.bfSize = dwBmpSize + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
     bmfHeader.bfType = 0x4D42; //BM
-    
+
     // write bitmap to file
     WriteFile(file, (LPSTR)&bmfHeader, sizeof(BITMAPFILEHEADER), NULL, NULL);
     WriteFile(file, (LPSTR)&bi, sizeof(BITMAPINFOHEADER), NULL, NULL);
     WriteFile(file, (LPSTR)lpbitmap, dwBmpSize, NULL, NULL);
-    
+
     // clean up
     GlobalUnlock(hDIB);
     GlobalFree(hDIB);
@@ -84,7 +84,7 @@ char* capture(int w, int h)
 void terminate()
 {
     // unload any resources
-    SDL_DestroyTexture(texture);   
+    SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 
     // register termination function
     atexit(terminate);
-    
+
     // get screen dimensions
     int w = GetSystemMetrics(SM_CXSCREEN);
     int h = GetSystemMetrics(SM_CYSCREEN);
@@ -129,7 +129,7 @@ int main(int argc, char **argv)
     while (1)
     {
         SDL_WaitEvent(&event);
-        
+
         if (!motion && event.type == SDL_MOUSEMOTION)
         {
             // keep track of total traveled mouse motion distance
