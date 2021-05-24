@@ -1,2 +1,2 @@
-# Fullscreen Window Capture
+# Fullscreen window capture
 Totally not meant for trolling purposes...
